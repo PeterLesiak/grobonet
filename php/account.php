@@ -26,13 +26,6 @@ $dateOfBirth = $_POST['dateOfBirth'];
 $dateOfDeath = $_POST['dateOfDeath'];
 $cemetery = $_POST['cemetery'];
 
-$response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=". $secretKey ."&response=".$_POST['g-recaptcha-response']."&remoteip=".$_SERVER['REMOTE_ADDR']);
-$googleobj = json_decode($response);
-$verified = $googleobj->success;
-if ($verified == false){
-  die('nie');
-}
-
 $stmt = $mysqli->prepare('UPDATE Users SET name = ?, surname = ?, dateOfBirth = ?, dateOfDeath = ?, cemetery = ?, password = ? WHERE PESEL = ?');
 $stmt->bind_param('ssssiss', $name, $surname, $dateOfBirth, $dateOfDeath, $cemetery, $password, $PESEL);
 $stmt->execute();
